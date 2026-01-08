@@ -24,4 +24,13 @@ export default defineConfig({
             },
         }),
     ],
+    // AGREGAR ESTO PARA SOLUCIONAR EL ERROR DE CORS
+    server: {
+        host: 'localhost',
+        cors: {
+            origin: '*',
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+            allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+        },
+    },
 });
