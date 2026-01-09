@@ -42,3 +42,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
 */
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php'; // Ahora este archivo ya existe
+
+
+// --- RUTA PÚBLICA (PADRES) ---
+Route::get('/rude/registro', [RudeController::class, 'create'])->name('rude.create');
+Route::post('/rude/registro', [RudeController::class, 'store'])->name('rude.store');
+
+// --- RUTAS DE ADMINISTRADOR (PROTEGIDAS) ---
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    
+    // Panel Dashboard de RUDE
+    Route::get('/admin/rude', [RudeController::class, 'index'])->name('rude.index');
+    
+    // Ver fotos de documentos (Ruta segura)
+    Route::get('/admin/rude/doc/{id}/{tipo}', [RudeController::class, 'viewDocument'])->name('rude.document');
+    
+    // Aquí iría la ruta del PDF a futuro
+    // Route::get('/admin/rude/pdf/{id}', [RudeController::class, 'pdf'])->name('rude.pdf');
+});
