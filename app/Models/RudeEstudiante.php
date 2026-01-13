@@ -10,9 +10,8 @@ class RudeEstudiante extends Model
     use SoftDeletes;
     
     protected $table = 'rude_estudiantes';
-    protected $guarded = []; // Habilitar asignación masiva
+    protected $guarded = [];
 
-    // Relaciones
     public function direccion() {
         return $this->hasOne(RudeDireccion::class, 'estudiante_id');
     }
@@ -21,8 +20,8 @@ class RudeEstudiante extends Model
         return $this->hasOne(RudeSocioeconomico::class, 'estudiante_id');
     }
 
-    public function tutores() {
-        return $this->hasMany(RudeTutor::class, 'estudiante_id');
+    public function padres() {
+        return $this->hasOne(RudePadres::class, 'estudiante_id');
     }
     
     public function discapacidad() {

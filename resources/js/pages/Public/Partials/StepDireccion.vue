@@ -1,76 +1,86 @@
 <script setup>
-import Label from '@/components/ui/label/Label.vue';
-import Input from '@/components/ui/input/Input.vue';
 import { defineProps } from 'vue';
+import { Map, MapPin, Phone, GraduationCap } from 'lucide-vue-next';
 
 const props = defineProps(['form']);
 </script>
 
 <template>
-    <div class="space-y-6 animate-in fade-in slide-in-from-bottom-2">
-        <h2 class="text-xl font-bold text-blue-900 border-b pb-2 flex items-center gap-2">
-            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Sección III</span>
-            Dirección Actual de la o el Estudiante
+    <div class="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <h2 class="text-xl font-bold text-blue-900 border-b pb-4 mb-6 flex items-center gap-3">
+            <Map class="w-6 h-6 text-red-600" />
+            <span class="flex-1">DIRECCIÓN ACTUAL DE LA O EL ESTUDIANTE</span>
+            <span class="bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full font-bold">Sección III</span>
         </h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-2">
-                <Label>Departamento</Label>
-                <select v-model="form.dir_depto" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-                    <option>COCHABAMBA</option>
-                    <option>LA PAZ</option>
-                    <option>SANTA CRUZ</option>
-                    <option>ORURO</option>
-                    <option>POTOSÍ</option>
-                    <option>CHUQUISACA</option>
-                    <option>TARIJA</option>
-                    <option>BENI</option>
-                    <option>PANDO</option>
-                </select>
-            </div>
-            
-            <div class="space-y-2">
-                <Label>Provincia</Label>
-                <Input v-model="form.dir_provincia" class="uppercase" placeholder="Ej. CERCADO" />
-            </div>
-
-            <div class="space-y-2">
-                <Label>Municipio / Sección</Label>
-                <Input v-model="form.dir_municipio" class="uppercase" placeholder="Ej. COCHABAMBA" />
-            </div>
-
-            <div class="space-y-2">
-                <Label>Localidad / Comunidad</Label>
-                <Input v-model="form.dir_localidad" class="uppercase" />
-            </div>
-
-            <div class="space-y-2">
-                <Label>Zona / Villa</Label>
-                <Input v-model="form.dir_zona" class="uppercase" />
-            </div>
-            
-            <div class="space-y-2">
-                <Label>Avenida / Calle</Label>
-                <Input v-model="form.dir_calle" class="uppercase" />
-            </div>
-
-            <div class="space-y-2">
-                <Label>Número de Vivienda</Label>
-                <Input v-model="form.dir_numero" class="uppercase" placeholder="S/N" />
-            </div>
-
-            <div class="space-y-2">
-                <Label>Teléfono Fijo (Opcional)</Label>
-                <Input v-model="form.dir_telefono" />
-            </div>
-
-            <div class="md:col-span-2 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                <Label class="text-yellow-900 font-bold text-base">Celular de Contacto (Obligatorio)</Label>
-                <Input v-model="form.dir_celular" type="tel" class="mt-2 bg-white font-bold tracking-wider" placeholder="70000000" />
-                <p class="text-xs text-yellow-700 mt-1">
-                    * Este número será utilizado para enviarle comunicados importantes de la Unidad Educativa.
-                </p>
-            </div>
+        
+        <div class="bg-white rounded-xl sm:rounded-3xl p-4 sm:p-6 shadow-sm border-t-4 border-blue-900 ring-1 ring-gray-100">
+             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                 <div>
+                    <label class="text-xs font-bold text-blue-900 uppercase mb-1 block flex items-center gap-1">
+                        <MapPin class="w-3 h-3 text-red-500" /> a. Departamento
+                    </label>
+                    <div class="relative">
+                        <select v-model="form.departamento" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-600 appearance-none font-medium text-sm text-gray-900 shadow-sm">
+                            <option>La Paz</option>
+                            <option>Oruro</option>
+                            <option>Potosí</option>
+                            <option>Cochabamba</option>
+                            <option>Chuquisaca</option>
+                            <option>Tarija</option>
+                            <option>Pando</option>
+                            <option>Beni</option>
+                            <option>Santa Cruz</option>
+                        </select>
+                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-red-500">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </div>
+                    </div>
+                </div>
+                 
+                 <div>
+                    <label class="text-xs font-bold text-gray-700 uppercase mb-1 block">b. Provincia</label>
+                    <input v-model="form.provincia" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-600 uppercase font-medium text-sm transition-all text-gray-900 shadow-sm">
+                </div>
+                 
+                 <div>
+                    <label class="text-xs font-bold text-gray-700 uppercase mb-1 block">c. Municipio (Sección)</label>
+                    <input v-model="form.municipio" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-600 uppercase font-medium text-sm transition-all text-gray-900 shadow-sm">
+                </div>
+                 
+                 <div>
+                    <label class="text-xs font-bold text-gray-700 uppercase mb-1 block">d. Localidad/Comunidad</label>
+                    <input v-model="form.localidad" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-600 uppercase font-medium text-sm transition-all text-gray-900 shadow-sm">
+                </div>
+                 
+                 <div class="lg:col-span-2">
+                    <label class="text-xs font-bold text-gray-700 uppercase mb-1 block">e. Zona/Villa</label>
+                    <input v-model="form.zona" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-600 uppercase font-medium text-sm transition-all text-gray-900 shadow-sm">
+                </div>
+                 
+                 <div class="lg:col-span-2">
+                    <label class="text-xs font-bold text-gray-700 uppercase mb-1 block">f. Avenida/Calle</label>
+                    <input v-model="form.avenida_calle" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-600 uppercase font-medium text-sm transition-all text-gray-900 shadow-sm">
+                </div>
+                 
+                 <div>
+                    <label class="text-xs font-bold text-gray-700 uppercase mb-1 block">g. No. Vivienda</label>
+                    <input v-model="form.numero_vivienda" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-600 text-sm transition-all text-gray-900 shadow-sm">
+                </div>
+                 
+                 <div>
+                    <label class="text-xs font-bold text-gray-700 uppercase mb-1 block flex items-center gap-1">
+                        <Phone class="w-3 h-3" /> h. Tel. Fijo
+                    </label>
+                    <input v-model="form.telefono_fijo" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-600 text-sm transition-all text-gray-900 shadow-sm">
+                </div>
+                 
+                 <div class="bg-red-50 rounded-xl p-1 border border-red-100">
+                    <label class="text-xs font-bold text-red-800 uppercase mb-1 block flex items-center gap-1 pl-2 pt-2">
+                        <Phone class="w-3 h-3" /> i. Celular
+                    </label>
+                    <input v-model="form.celular_contacto" class="w-full p-3 bg-white border-red-200 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 text-sm font-bold tracking-wider transition-all shadow-sm">
+                </div>
+             </div>
         </div>
     </div>
 </template>

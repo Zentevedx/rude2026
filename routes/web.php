@@ -6,61 +6,42 @@ use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
-| RUTAS PÚBLICAS (Para los Padres de Familia)
+| 1. RUTAS PÚBLICAS (Padres de Familia)
 |--------------------------------------------------------------------------
 */
 
-// Formulario RUDE de la U.E. ISMAEL VÁSQUEZ
-Route::get('/', function () {
-    return Inertia::render('Public/RudeForm');
-})->name('rude.form');
+// Paso 1: Mostrar el Formulario (Home)
+// Nombramos a esta ruta 'welcome' porque el controlador redirige aquí al terminar.
+Route::get('/', [RudeController::class, 'index'])->name('welcome');
 
-// Procesar el envío del formulario
-Route::post('/enviar-rude', [RudeController::class, 'store'])->name('rude.store');
+// Paso 2: Guardar los datos (POST)
+// Esta es la ruta que busca el botón "FINALIZAR INSCRIPCIÓN"
+Route::post('/rude/registrar', [RudeController::class, 'store'])->name('rude.store');
 
 
 /*
 |--------------------------------------------------------------------------
-| RUTAS PRIVADAS (Solo para el Administrador)
+| 2. RUTAS PRIVADAS (Administrador / Secretaria)
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    
-    // Panel de Control Principal
-    Route::get('/dashboard', [RudeController::class, 'index'])->name('dashboard');
-    
-    // Ruta segura para ver fotos de CI (Evita fuga de datos)
-    Route::get('/admin/rude/foto/{id}/{tipo}', [RudeController::class, 'viewDocument'])
-        ->name('admin.rude.foto');
-});
-
-/*
-|--------------------------------------------------------------------------
-| ARCHIVOS ADICIONALES
-|--------------------------------------------------------------------------
-*/
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php'; // Ahora este archivo ya existe
-
-
-// --- RUTA PÚBLICA (PADRES) ---
-Route::get('/rude/registro', [RudeController::class, 'create'])->name('rude.create');
-Route::post('/rude/registro', [RudeController::class, 'store'])->name('rude.store');
-
-// --- RUTAS DE ADMINISTRADOR (PROTEGIDAS) ---
 Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
+    'auth', // Usamos el guard por defecto (web session) para evitar problemas con Sanctum
     'verified',
 ])->group(function () {
+
+    // Listado Dashboard
+    Route::get('/dashboard', [RudeController::class, 'list'])->name('dashboard');
+
+    // CRUD Admin RUDE
+    Route::get('/admin/rude/{id}/edit', [RudeController::class, 'edit'])->name('rude.edit');
+    Route::put('/admin/rude/{id}', [RudeController::class, 'update'])->name('rude.update');
+    Route::delete('/admin/rude/{id}', [RudeController::class, 'destroy'])->name('rude.destroy');
+    Route::get('/admin/rude/{id}/print', [RudeController::class, 'print'])->name('rude.print');
     
-    // Panel Dashboard de RUDE
-    Route::get('/admin/rude', [RudeController::class, 'index'])->name('rude.index');
-    
-    // Ver fotos de documentos (Ruta segura)
-    Route::get('/admin/rude/doc/{id}/{tipo}', [RudeController::class, 'viewDocument'])->name('rude.document');
-    
-    // Aquí iría la ruta del PDF a futuro
-    // Route::get('/admin/rude/pdf/{id}', [RudeController::class, 'pdf'])->name('rude.pdf');
+    // Ruta segura para ver documentos (evita acceso público directo)
+    Route::get('/admin/rude/foto/{id}/{type}', [RudeController::class, 'showPhoto'])->name('rude.showPhoto');
 });
+
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
